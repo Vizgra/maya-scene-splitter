@@ -1,0 +1,16 @@
+string $objects[] = `ls -type transform`;
+
+string $directory = "C:/Users/jekson/Desktop/output_directory";
+if (!`filetest -d $directory`)
+    system("mkdir " + $directory);
+
+for ($obj in $objects)
+{
+    // Пропускаем объекты с заданными именами
+    if ($obj == "front" || $obj == "persp" || $obj == "side" || $obj == "top")
+        continue;
+    
+    string $file_path = $directory + "/" + $obj + ".mb";
+    select $obj;
+    file -force -options "v=0;" -type "mayaBinary" -typ "mayaBinary" -pr -es $file_path;
+}
