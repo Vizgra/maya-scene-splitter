@@ -1,0 +1,24 @@
+import maya.cmds as cmds
+import os
+
+# Get a list of all transform nodes
+objects = cmds.ls(type='transform')
+
+directory = "C:/Users/jekson/Desktop/output_directory"
+
+# Create the directory if it doesn't exist
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+for obj in objects:
+    # Skip objects with specified names
+    if obj in ["front", "persp", "side", "top"]:
+        continue
+
+    file_path = os.path.join(directory, obj + ".mb")
+
+    # Select the object
+    cmds.select(obj)
+
+    # Export the selected object
+    cmds.file(file_path, force=True, options="v=0;", typ="mayaBinary", pr=True, es=True)
